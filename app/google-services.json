@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "590447251540",
+    "project_id": "syncup-149405"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590447251540:android:3df2411f3d5f947e",
+        "android_client_info": {
+          "package_name": "com.applications.severin.baron.syncup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590447251540-nm3vjv05kg33ppc4ahpvb5rkki9egh5u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.applications.severin.baron.syncup",
+            "certificate_hash": "45E3166EF97A4B8AE8D190C7775CB919C707E48E"
+          }
+        },
+        {
+          "client_id": "590447251540-ngq4kq41g53sfr9ur4kp1ucttbt4v1ad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjUna2OKqNd3QpSQLgsG0bL3TdoJvZCtI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
