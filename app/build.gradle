@@ -41,5 +41,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 
     // Google Sign In
-    compile 'com.google.android.gms:play-services-auth:9.8.0'
+    compile 'com.google.android.gms:play-services-auth:9.0.0'
+
+    // Constraint Layout
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
 }
