@@ -8,4 +8,6 @@
 
     <dimen name="text_large">34sp</dimen>
     <dimen name="text_medium">24sp</dimen>
+    <dimen name="invitation_status_width">60dp</dimen>
+    <dimen name="fab_size_medium">56dp</dimen>
 </resources>

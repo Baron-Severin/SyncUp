@@ -142,19 +142,16 @@ public class EventInfoActivity extends AppCompatActivity {
 
     @Override
     public int getCount() {
-      // Show 3 total pages.
-      return 3;
+      return 2;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
       switch (position) {
         case 0:
-          return "SECTION 1";
+          return "Details";
         case 1:
-          return "SECTION 2";
-        case 2:
-          return "SECTION 3";
+          return "Invitations";
       }
       return null;
     }
@@ -162,7 +159,7 @@ public class EventInfoActivity extends AppCompatActivity {
 }
 
 
-//TODO: Note about switching views
+// TODO: Reference this method when setting up view switching
 /*
 
 public void TextViewClicked() {
@@ -174,4 +171,4 @@ public void TextViewClicked() {
 
  */
 
-//TODO: Remember to have the RV not scroll
+// TODO: Remember to have the RV not scroll
