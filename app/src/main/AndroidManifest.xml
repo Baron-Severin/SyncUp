@@ -22,6 +22,11 @@
         </activity>
         <activity android:name=".SetProfileActivity">
         </activity>
+        <activity
+            android:name=".EventListActivity"
+            android:label="@string/title_activity_event_list"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

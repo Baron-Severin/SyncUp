@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:orientation="vertical"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content">
+
+    <TextView
+        android:text="Date"
+        android:textSize="@dimen/text_large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_date"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:text="Time"
+        android:textSize="@dimen/text_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_time"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView_date"
+        app:layout_constraintRight_toRightOf="@+id/textView_date"/>
+
+    <android.support.v7.widget.CardView
+        android:layout_gravity="center"
+        android:layout_width="0dp"
+        app:cardCornerRadius="4dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintLeft_toRightOf="@+id/textView_date"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="140dp"
+        app:layout_constraintTop_toTopOf="@+id/textView_date"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:id="@+id/imageView_eventCardImage"
+            />
+
+        <TextView
+            android:text="Event Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_eventCardName"
+            android:layout_gravity="center"
+            />
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>
