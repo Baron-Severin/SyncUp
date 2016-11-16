@@ -29,6 +29,10 @@ public class LoginActivity extends AppCompatActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
+    setUpGoogleSignIn();
+  }
+
+  private void setUpGoogleSignIn(){
     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
       .requestEmail()
       .build();
@@ -37,8 +41,6 @@ public class LoginActivity extends AppCompatActivity
       .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
       .build();
     findViewById(R.id.sign_in_button).setOnClickListener(this);
-
-
   }
 
   @Override
@@ -53,9 +55,8 @@ public class LoginActivity extends AppCompatActivity
   }
 
   private void handleSignInResult(GoogleSignInResult result) {
-    Log.d(TAG, "handleSignInResult:" + result.toString());
+    Log.d(TAG, "handleSignInResult:" + result.isSuccess());
     if (result.isSuccess()) {
-      // Signed in successfully, show authenticated UI.
       GoogleSignInAccount acct = result.getSignInAccount();
 //    TODO:  acct.getEmail();
 

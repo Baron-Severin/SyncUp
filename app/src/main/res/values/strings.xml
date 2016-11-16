@@ -13,4 +13,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="what_would_you_like_your_display_name_to_be">What would you like your display name to be?</string>
+    <string name="display_name">Display Name</string>
+    <string name="gmail_profile">Gmail Profile</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="skip">Skip</string>
 </resources>

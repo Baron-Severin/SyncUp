@@ -1,15 +1,39 @@
 # SyncUp
 
+ACTIONS
+
+Friends
+	-Find by phone # or email
+	-Add/Remove
+
+Profile
+	-Edit pojo
+
+Events
+	-Update event
+	-Update Confirmation
+	-Check for updates
 
 
-Components:
--Log in
-  -Authenticate using Gmail
--Friends
-  -If friend uses app, send via app notification
-  -If ! ^, send via text
--Events
-  -Streamlined data input
--Availability Visualization
--Calendar Integration
--Share Details / Notes / Pictures / Locations
+OBJECTS
+
+Contact
+	-Email, name, phone, picture (medium and small)
+Profile (extends from Contact)
+	-Locations
+Event
+	-Name, picture (medium and small), location
+	-Confirmation
+	-Details ('bring chips')
+	-Questions ('should we bring chips?')
+Confirmation (enum)
+	-Going, not going, on the way, etc
+
+
+
+
+
+Important updates are sent immediately, others periodically or when requested by user
+
+
+
