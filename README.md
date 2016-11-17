@@ -15,25 +15,66 @@ Events
 	-Check for updates
 
 
-OBJECTS
-
-Contact
-	-Email, name, phone, picture (medium and small)
-Profile (extends from Contact)
-	-Locations
-Event
-	-Name, picture (medium and small), location
-	-Confirmation
-	-Details ('bring chips')
-	-Questions ('should we bring chips?')
-Confirmation (enum)
-	-Going, not going, on the way, etc
 
 
 
+Firebase DB
+	-PhoneNumbers
+		-<Phone Number>
+			-Private
+				-EventList
+			-Public
+				-DisplayName
+				-PictureSmall
+				-NotificationSetting
+			-Updates 
+				-(unimportant updates [what is unimportant is determined by NotificationSetting] are pushed here. This field is checked when the app is opened, and new information is retrieved)
+				-NameLocDateTime:bool
+				-Picture:bool
+				-NoteList:bool
+				-Invitations:bool
+	-Events
+		-<EventId>
+			-Name
+			-PictureMedium (this is compressed locally, but only one version is stored in FB)
+			-Location
+			-FromTime
+			-ToTime
+			-NoteList
+				-(all notes for the Event are pushed here)
+			-Invitations
+				-(list of user:status)
 
 
-Important updates are sent immediately, others periodically or when requested by user
+Shared Preferences
+	-CurrentEventId
+	-UserPhoneNumber
+
+
+SQLite3 DB
+	-TableEvent
+		-EventId : Integer (primary key)
+		-Name : String
+		-PictureMedium : String
+		-Location : String
+		-FromTime : String (time)
+		-ToTime : String (time)
+	-TableNote
+		-NoteId : Integer (primary key)
+		-EventId : Integer
+		-Note : String
+	-TableInvitation
+		-InvitationId : Integer (primary key)
+		-EventId : Integer
+		-UserPhone : Integer
+	-TableUser
+		-UserPhone : Integer (primary key)
+		-DisplayName : String
+		-PictureSmall : String
+		
+
+
+
 
 
 
