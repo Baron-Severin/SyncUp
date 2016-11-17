@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "590447251540",
-    "project_id": "syncup-149405"
+    "firebase_url": "https://syncup-149405.firebaseio.com",
+    "project_id": "syncup-149405",
+    "storage_bucket": "syncup-149405.appspot.com"
   },
   "client": [
     {
@@ -21,6 +23,10 @@
           }
         },
         {
+          "client_id": "590447251540-ngh8od98donpmfeari1g9d8u7gftggja.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "590447251540-ngq4kq41g53sfr9ur4kp1ucttbt4v1ad.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -35,11 +41,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590447251540-ngh8od98donpmfeari1g9d8u7gftggja.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

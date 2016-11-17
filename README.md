@@ -71,7 +71,9 @@ SQLite3 DB
 		-UserPhone : Integer (primary key)
 		-DisplayName : String
 		-PictureSmall : String
-		
+
+
+UI shows information pulled from the local db.  Local db is updated when the app is opened or upon user request from FB.  Only the parts of an event that have been updated are downloaded (primarily to prevent unecessary picture downloads).  If a user cannot access the FB db when the app is opened, they are notified that the app may be out of date and are prevented from making changes.
 
 
 
