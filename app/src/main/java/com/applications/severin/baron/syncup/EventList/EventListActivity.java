@@ -1,8 +1,7 @@
-package com.applications.severin.baron.syncup;
+package com.applications.severin.baron.syncup.EventList;
 
+import android.app.usage.UsageEvents;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -19,10 +18,13 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.applications.severin.baron.syncup.R;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EventListActivity extends AppCompatActivity {
+public class EventListActivity extends AppCompatActivity
+  implements EventListContract.View {
 
 
   private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -35,7 +37,6 @@ public class EventListActivity extends AppCompatActivity {
 
     setUpToolbar();
     setUpPager();
-
   }
 
   private void setUpToolbar() {

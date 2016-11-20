@@ -1,6 +1,6 @@
 package com.applications.severin.baron.syncup.Dagger;
 
-import com.applications.severin.baron.syncup.EventListActivity;
+import com.applications.severin.baron.syncup.EventList.EventListActivity;
 import com.applications.severin.baron.syncup.LoginActivity;
 
 import javax.inject.Singleton;
