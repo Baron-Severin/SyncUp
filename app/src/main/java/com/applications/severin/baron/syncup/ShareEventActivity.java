@@ -10,4 +10,5 @@ public class ShareEventActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_share_event);
   }
+
 }

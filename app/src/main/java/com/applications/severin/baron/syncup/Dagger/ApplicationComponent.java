@@ -1,5 +1,6 @@
 package com.applications.severin.baron.syncup.Dagger;
 
+import com.applications.severin.baron.syncup.EventListActivity;
 import com.applications.severin.baron.syncup.LoginActivity;
 
 import javax.inject.Singleton;
@@ -15,6 +16,7 @@ import dagger.Component;
 public interface ApplicationComponent {
 
   void inject(LoginActivity target);
+  void inject(EventListActivity target);
 
 
 }
