@@ -6,56 +6,56 @@ package com.applications.severin.baron.syncup.Database;
 
 public class SqlStrings {
 
-  public static final String TABLE_EVENT = "table_event";
-  public static final String EVENT_ID = "event_id";
-  public static final String NAME = "name";
-  public static final String PICTURE_MEDIUM = "picture_medium";
-  public static final String LOCATION = "location";
-  public static final String FROM_TIME = "from_time";
-  public static final String TO_TIME = "to_time";
+   static final String TABLE_EVENT = "table_event";
+   static final String EVENT_ID = "event_id";
+   static final String NAME = "name";
+   static final String PICTURE_MEDIUM = "picture_medium";
+   static final String LOCATION = "location";
+   static final String FROM_TIME = "from_time";
+   static final String TO_TIME = "to_time";
 
-  public static final String TABLE_NOTE = "table_note";
-  public static final String NOTE_ID = "note_id";
-  public static final String NOTE = "note";
+   static final String TABLE_NOTE = "table_note";
+   static final String NOTE_ID = "note_id";
+   static final String NOTE = "note";
 
-  public static final String TABLE_INVITATION = "table_invitation";
-  public static final String INVITATION_ID = "invitation_id";
-  public static final String USER_PHONE = "user_phone";
+   static final String TABLE_INVITATION = "table_invitation";
+   static final String INVITATION_ID = "invitation_id";
+   static final String USER_PHONE = "user_phone";
 
-  public static final String TABLE_USER = "table_user";
-  public static final String DISPLAY_NAME = "display_name";
-  public static final String PICTURE_SMALL = "picture_small";
+   static final String TABLE_USER = "table_user";
+   static final String DISPLAY_NAME = "display_name";
+   static final String PICTURE_SMALL = "picture_small";
 
 
-  public static final String createStringTableEvent =
+  static final String createStringTableEvent =
     "CREATE TABLE IF NOT EXISTS " + TABLE_EVENT + " (" +
-      EVENT_ID + " INTEGER, " +
-      NAME + " FLOAT, " +
-      PICTURE_MEDIUM + " FLOAT, " +
-      LOCATION + " FLOAT, " +
-      FROM_TIME + " FLOAT, " +
-      TO_TIME + " FLOAT" +
+      EVENT_ID + " INTEGER PRIMARY KEY, " +
+      NAME + " TEXT, " +
+      PICTURE_MEDIUM + " TEXT, " +
+      LOCATION + " TEXT, " +
+      FROM_TIME + " TEXT, " +
+      TO_TIME + " TEXT" +
       ");";
 
-  public static final String createStringTableNote =
+  static final String createStringTableNote =
     "CREATE TABLE IF NOT EXISTS " + TABLE_NOTE + " (" +
-      NOTE_ID + " INTEGER, " +
-      EVENT_ID + " FLOAT, " +
-      NOTE + " FLOAT" +
+      NOTE_ID + " INTEGER PRIMARY KEY, " +
+      EVENT_ID + " Integer, " +
+      NOTE + " TEXT" +
       ");";
 
-  public static final String createStringTableInvitation =
+  static final String createStringTableInvitation =
     "CREATE TABLE IF NOT EXISTS " + TABLE_INVITATION + " (" +
-      INVITATION_ID + " INTEGER, " +
-      EVENT_ID + " FLOAT, " +
-      USER_PHONE + " FLOAT" +
+      INVITATION_ID + " INTEGER PRIMARY KEY, " +
+      EVENT_ID + " INTEGER, " +
+      USER_PHONE + " INTEGER" +
       ");";
 
-  public static final String createStringTableUser =
+  static final String createStringTableUser =
     "CREATE TABLE IF NOT EXISTS " + TABLE_USER + " (" +
-      USER_PHONE + " INTEGER, " +
-      DISPLAY_NAME + " FLOAT, " +
-      PICTURE_SMALL + " FLOAT" +
+      USER_PHONE + " INTEGER PRIMARY KEY, " +
+      DISPLAY_NAME + " TEXT, " +
+      PICTURE_SMALL + " TEXT" +
       ");";
 
 }

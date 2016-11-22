@@ -18,13 +18,15 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.applications.severin.baron.syncup.Models.Event;
 import com.applications.severin.baron.syncup.R;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EventListActivity extends AppCompatActivity
-  implements EventListContract.View {
+public class EventListActivity extends AppCompatActivity {
 
 
   private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -78,7 +80,6 @@ public class EventListActivity extends AppCompatActivity
 
     return super.onOptionsItemSelected(item);
   }
-
 
   /**
    * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -148,4 +149,7 @@ public class EventListActivity extends AppCompatActivity
       return rootView;
     }
   }
+
+
+
 }
