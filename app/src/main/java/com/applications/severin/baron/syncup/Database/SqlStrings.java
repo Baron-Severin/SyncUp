@@ -32,6 +32,7 @@ public class SqlStrings {
       EVENT_ID + " INTEGER PRIMARY KEY, " +
       NAME + " TEXT, " +
       PICTURE_MEDIUM + " TEXT, " +
+      PICTURE_SMALL + " TEXT, " +
       LOCATION + " TEXT, " +
       FROM_TIME + " TEXT, " +
       TO_TIME + " TEXT" +
