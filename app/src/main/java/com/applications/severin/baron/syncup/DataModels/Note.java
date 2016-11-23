@@ -27,7 +27,7 @@ public class Note {
     this.content = content;
   }
 
-  public Note inflateNoteFromDb(long noteId, long eventId, int userPhone, String content) {
+  public static Note inflateNoteFromDb(long noteId, long eventId, int userPhone, String content) {
     return new Note(noteId, eventId, userPhone, content);
   }
 

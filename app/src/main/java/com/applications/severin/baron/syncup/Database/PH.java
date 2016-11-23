@@ -22,6 +22,7 @@ public class PH {
 
    public static final String TABLE_INVITATION = "table_invitation";
    public static final String INVITATION_ID = "invitation_id";
+   public static final String INVITATION_STATUS = "invitation_status";
    public static final String USER_PHONE = "user_phone";
 
    public static final String TABLE_USER = "table_user";
@@ -53,6 +54,7 @@ public class PH {
     "CREATE TABLE IF NOT EXISTS " + TABLE_INVITATION + " (" +
       INVITATION_ID + " INTEGER PRIMARY KEY, " +
       EVENT_ID + " INTEGER, " +
+      INVITATION_STATUS + " INTEGER, " +
       USER_PHONE + " INTEGER" +
       ");";
 

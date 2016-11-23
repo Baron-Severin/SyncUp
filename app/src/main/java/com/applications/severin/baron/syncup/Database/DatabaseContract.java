@@ -9,10 +9,10 @@ import com.applications.severin.baron.syncup.DataModels.User;
 
 public interface DatabaseContract {
 
-  void saveEvent(Event event);
-  void deleteEvent(Event event);
+  boolean saveEvent(Event event);
+  boolean deleteEvent(Event event);
   Event getEvent(long eventId);
 
-  void saveUser(User user);
+  boolean saveUser(User user);
   User getUser(int userId);
 }

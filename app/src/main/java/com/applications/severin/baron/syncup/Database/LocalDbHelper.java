@@ -1,12 +1,18 @@
 package com.applications.severin.baron.syncup.Database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.applications.severin.baron.syncup.DataModels.Event;
+import com.applications.severin.baron.syncup.DataModels.Invitation;
+import com.applications.severin.baron.syncup.DataModels.Note;
 import com.applications.severin.baron.syncup.DataModels.User;
 import com.applications.severin.baron.syncup.Utility.PictureTextConverter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by erikrudie on 11/20/16.
@@ -58,8 +64,22 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
 
 
   @Override
-  public void saveEvent(Event event) {
+  public boolean saveEvent(Event event) {
     SQLiteDatabase db = this.getWritableDatabase();
+
+    saveEventDetails(db, event);
+    for (Note note : event.getNotes()) {
+      saveNoteDetails(db, note);
+    }
+    for (Invitation invitation : event.getInvitations()) {
+      saveInvitationDetails(db, invitation);
+    }
+
+    db.close();
+    return true;
+  }
+
+  private void saveEventDetails(SQLiteDatabase db, Event event) {
     String sql = "INSERT OR REPLACE INTO " + PH.TABLE_EVENT + " (" +
       PH.EVENT_ID + ", " +
       PH.OWNER_ID + ", " +
@@ -80,20 +100,35 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
       event.getToTime() + "');";
 
     db.execSQL(sql);
-
-
-
-    db.close();
   }
 
-//  String sql = "INSERT OR REPLACE INTO " + PH.TABLE_PLAN + " (" +
-//    PH.PROJECT_ID + ", " +
-//    PH.SHAPE_COORDINATE_STRING + ", " +
-//    PH.ROUTE_COORDINATE_STRING +
-//    ") VALUES ('" +
-//    projectId + "', '" +
-//    shapeCoordinateString + "', '" +
-//    routeCoordinateString + "');";
+  private void saveNoteDetails(SQLiteDatabase db, Note note) {
+    String sql = "INSERT OR REPLACE INTO " + PH.TABLE_NOTE + " (" +
+      PH.NOTE_ID + ", " +
+      PH.EVENT_ID + ", " +
+      PH.NOTE_CONTENT +
+      ") VALUES ('" +
+      note.getNoteId() + "', '" +
+      note.getEventId() + "', '" +
+      note.getContent() + "');";
+
+    db.execSQL(sql);
+  }
+
+  private void saveInvitationDetails(SQLiteDatabase db, Invitation invitation) {
+    String sql = "INSERT OR REPLACE INTO " + PH.TABLE_INVITATION + " (" +
+      PH.INVITATION_ID + ", " +
+      PH.EVENT_ID + ", " +
+      PH.INVITATION_STATUS + ", " +
+      PH.USER_PHONE +
+      ") VALUES ('" +
+      invitation.getInvitationId() + "', '" +
+      invitation.getEventId() + "', '" +
+      invitation.getStatus() + "', '" +
+      invitation.getUserId() + "');";
+
+    db.execSQL(sql);
+  }
 
   @Override
   public void deleteEvent(Event event) {
@@ -102,8 +137,37 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
 
   @Override
   public Event getEvent(long eventId) {
-    return null;
+    SQLiteDatabase db = this.getReadableDatabase();
+
+    List<Note> notes = getNotesAttachedToEvent(db, eventId);
+    List<Invitation> invitations = getInvitationsAttachedToEvent(db, eventId);
+// TODO: 11/22/16 This is where I left off 
+
   }
+
+  private List<Note> getNotesAttachedToEvent(SQLiteDatabase db, long eventId) {
+    List<Note> notes = new ArrayList<>();
+    String sql = "SELECT * FROM " + PH.TABLE_NOTE +
+      " WHERE " + PH.EVENT_ID + " = '" + eventId + "';";
+
+    Cursor cursor = db.rawQuery(sql, null);
+    cursor.moveToFirst();
+    while (!cursor.isAfterLast()) {
+      long noteId = cursor.getLong(cursor.getColumnIndexOrThrow(PH.NOTE_ID));
+      int userPhone = cursor.getInt(cursor.getColumnIndexOrThrow(PH.USER_PHONE));
+      String content = cursor.getString(cursor.getColumnIndexOrThrow(PH.NOTE_CONTENT));
+      Note note = Note.inflateNoteFromDb(noteId, eventId, userPhone, content);
+      notes.add(note);
+      cursor.moveToNext();
+    }
+    cursor.close();
+    return notes;
+  }
+
+//  private long noteId;
+//  private long eventId;
+//  private int userPhone;
+//  private String content;
 
   @Override
   public void saveUser(User user) {

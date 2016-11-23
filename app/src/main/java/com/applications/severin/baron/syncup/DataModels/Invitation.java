@@ -11,6 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 
 public class Invitation {
 
+  private final long invitationId;
   private final long eventId;
   private final int userId;
   private final int status;
@@ -23,10 +24,15 @@ public class Invitation {
   public static final int ACCEPTED = 1;
   public static final int DECLINED = 2;
 
-  public Invitation(long eventId, int userId, @InvitationStatus int status) {
+  public Invitation(long invitationId, long eventId, int userId, @InvitationStatus int status) {
+    this.invitationId = invitationId;
     this.eventId = eventId;
     this.userId = userId;
     this.status = status;
+  }
+
+  public long getInvitationId() {
+    return invitationId;
   }
 
   public long getEventId() {
