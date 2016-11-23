@@ -10,7 +10,7 @@ import com.applications.severin.baron.syncup.DataModels.Event;
 import com.applications.severin.baron.syncup.DataModels.Invitation;
 import com.applications.severin.baron.syncup.DataModels.Note;
 import com.applications.severin.baron.syncup.Database.LocalDbHelper;
-import com.applications.severin.baron.syncup.Database.SqlStrings;
+import com.applications.severin.baron.syncup.Database.PH;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -101,63 +101,69 @@ public class LocalDbHelperUnitTest {
 
   @Test
   public void eventTable_shouldHaveProperColumns() {
-    String sql = "SELECT * FROM " + SqlStrings.TABLE_EVENT;
+    String sql = "SELECT * FROM " + PH.TABLE_EVENT;
     Cursor cursor = mDb.rawQuery(sql, null);
     String[] columns = cursor.getColumnNames();
 
-    String[] projectColumns = {SqlStrings.EVENT_ID, SqlStrings.OWNER_ID, SqlStrings.NAME,
-      SqlStrings.PICTURE_MEDIUM, SqlStrings.PICTURE_SMALL, SqlStrings.LOCATION,
-      SqlStrings.FROM_TIME, SqlStrings.TO_TIME};
+    String[] projectColumns = {PH.EVENT_ID, PH.OWNER_ID, PH.NAME,
+      PH.PICTURE_MEDIUM, PH.PICTURE_SMALL, PH.LOCATION,
+      PH.FROM_TIME, PH.TO_TIME};
     for (String column : projectColumns) {
       assertThat("Column not implemented: " + column,
-        columns, hasItemInArray(column));
+        columns,
+        hasItemInArray(column));
       Assert.assertThat("False positives are a bad thing: ",
-        columns, not(hasItemInArray("anUnlikelyColumn")));
+        columns,
+        not(hasItemInArray("anUnlikelyColumn")));
     }
     cursor.close();
   }
 
   @Test
   public void noteTable_shouldHaveProperColumns() {
-    String sql = "SELECT * FROM " + SqlStrings.TABLE_NOTE;
+    String sql = "SELECT * FROM " + PH.TABLE_NOTE;
     Cursor cursor = mDb.rawQuery(sql, null);
     String[] columns = cursor.getColumnNames();
 
-    String[] projectColumns = {SqlStrings.NOTE_ID, SqlStrings.EVENT_ID, SqlStrings.NOTE_CONTENT};
+    String[] projectColumns = {PH.NOTE_ID, PH.EVENT_ID, PH.NOTE_CONTENT};
     for (String column : projectColumns) {
       assertThat("Column not implemented: " + column,
-        columns, hasItemInArray(column));
+        columns,
+        hasItemInArray(column));
       Assert.assertThat("False positives are a bad thing: ",
-        columns, not(hasItemInArray("anUnlikelyColumn")));
+        columns,
+        not(hasItemInArray("anUnlikelyColumn")));
     }
     cursor.close();
   }
 
   @Test
   public void invitationTable_shouldHaveProperColumns() {
-    String sql = "SELECT * FROM " + SqlStrings.TABLE_INVITATION;
+    String sql = "SELECT * FROM " + PH.TABLE_INVITATION;
     Cursor cursor = mDb.rawQuery(sql, null);
     String[] columns = cursor.getColumnNames();
 
-    String[] projectColumns = {SqlStrings.INVITATION_ID, SqlStrings.EVENT_ID,
-      SqlStrings.USER_PHONE};
+    String[] projectColumns = {PH.INVITATION_ID, PH.EVENT_ID,
+      PH.USER_PHONE};
     for (String column : projectColumns) {
       assertThat("Column not implemented: " + column,
-        columns, hasItemInArray(column));
+        columns,
+        hasItemInArray(column));
       Assert.assertThat("False positives are a bad thing: ",
-        columns, not(hasItemInArray("anUnlikelyColumn")));
+        columns,
+        not(hasItemInArray("anUnlikelyColumn")));
     }
     cursor.close();
   }
 
   @Test
   public void userTable_shouldHaveProperColumns() {
-    String sql = "SELECT * FROM " + SqlStrings.TABLE_USER;
+    String sql = "SELECT * FROM " + PH.TABLE_USER;
     Cursor cursor = mDb.rawQuery(sql, null);
     String[] columns = cursor.getColumnNames();
 
-    String[] projectColumns = {SqlStrings.USER_PHONE, SqlStrings.DISPLAY_NAME,
-      SqlStrings.PICTURE_SMALL, SqlStrings.TIME_ZONE};
+    String[] projectColumns = {PH.USER_PHONE, PH.DISPLAY_NAME,
+      PH.PICTURE_SMALL, PH.TIME_ZONE};
     for (String column : projectColumns) {
       assertThat("Column not implemented: " + column,
         columns, hasItemInArray(column));

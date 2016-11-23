@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.applications.severin.baron.syncup.DataModels.Event;
 import com.applications.severin.baron.syncup.DataModels.User;
+import com.applications.severin.baron.syncup.Utility.PictureTextConverter;
 
 /**
  * Created by erikrudie on 11/20/16.
@@ -36,21 +37,21 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
   }
 
   private boolean createAllTables(SQLiteDatabase db) {
-    db.execSQL(SqlStrings.createStringTableEvent);
-    db.execSQL(SqlStrings.createStringTableInvitation);
-    db.execSQL(SqlStrings.createStringTableNote);
-    db.execSQL(SqlStrings.createStringTableUser);
+    db.execSQL(PH.createStringTableEvent);
+    db.execSQL(PH.createStringTableInvitation);
+    db.execSQL(PH.createStringTableNote);
+    db.execSQL(PH.createStringTableUser);
     return true;
   }
 
   private boolean dropAllTables(SQLiteDatabase db) {
-    String sql = "DROP TABLE " + SqlStrings.TABLE_EVENT;
+    String sql = "DROP TABLE " + PH.TABLE_EVENT;
     db.execSQL(sql);
-    sql = "DROP TABLE " + SqlStrings.TABLE_INVITATION;
+    sql = "DROP TABLE " + PH.TABLE_INVITATION;
     db.execSQL(sql);
-    sql = "DROP TABLE " + SqlStrings.TABLE_NOTE;
+    sql = "DROP TABLE " + PH.TABLE_NOTE;
     db.execSQL(sql);
-    sql = "DROP TABLE " + SqlStrings.TABLE_USER;
+    sql = "DROP TABLE " + PH.TABLE_USER;
     db.execSQL(sql);
     return true;
   }
@@ -58,8 +59,41 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
 
   @Override
   public void saveEvent(Event event) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    String sql = "INSERT OR REPLACE INTO " + PH.TABLE_EVENT + " (" +
+      PH.EVENT_ID + ", " +
+      PH.OWNER_ID + ", " +
+      PH.NAME + ", " +
+      PH.PICTURE_MEDIUM + ", " +
+      PH.PICTURE_SMALL + ", " +
+      PH.LOCATION + ", " +
+      PH.FROM_TIME + ", " +
+      PH.TO_TIME +
+      ") VALUES ('" +
+      event.getEventId() + "', '" +
+      event.getOwnerId() + "', '" +
+      event.getName() + "', '" +
+      PictureTextConverter.bitmapToString(event.getPictureMedium()) + "', '" +
+      PictureTextConverter.bitmapToString(event.getPictureSmall()) + "', '" +
+      event.getLocation() + "', '" +
+      event.getFromTime() + "', '" +
+      event.getToTime() + "');";
 
+    db.execSQL(sql);
+
+
+
+    db.close();
   }
+
+//  String sql = "INSERT OR REPLACE INTO " + PH.TABLE_PLAN + " (" +
+//    PH.PROJECT_ID + ", " +
+//    PH.SHAPE_COORDINATE_STRING + ", " +
+//    PH.ROUTE_COORDINATE_STRING +
+//    ") VALUES ('" +
+//    projectId + "', '" +
+//    shapeCoordinateString + "', '" +
+//    routeCoordinateString + "');";
 
   @Override
   public void deleteEvent(Event event) {

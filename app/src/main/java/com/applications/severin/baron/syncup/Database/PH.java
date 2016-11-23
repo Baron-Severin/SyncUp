@@ -4,7 +4,8 @@ package com.applications.severin.baron.syncup.Database;
  * Created by erikrudie on 11/20/16.
  */
 
-public class SqlStrings {
+public class PH {
+  // TODO: 11/22/16 rename this PH
 
    public static final String TABLE_EVENT = "table_event";
    public static final String EVENT_ID = "event_id";
