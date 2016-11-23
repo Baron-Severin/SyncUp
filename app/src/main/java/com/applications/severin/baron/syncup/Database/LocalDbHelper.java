@@ -17,6 +17,10 @@ public class LocalDbHelper extends SQLiteOpenHelper {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
   }
 
+  public LocalDbHelper(Context context, boolean testMode) {
+    super(context, null, null, DATABASE_VERSION);
+  }
+
   @Override
   public void onCreate(SQLiteDatabase db) {
     createAllTables(db);

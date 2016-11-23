@@ -6,30 +6,33 @@ package com.applications.severin.baron.syncup.Database;
 
 public class SqlStrings {
 
-   static final String TABLE_EVENT = "table_event";
-   static final String EVENT_ID = "event_id";
-   static final String NAME = "name";
-   static final String PICTURE_MEDIUM = "picture_medium";
-   static final String LOCATION = "location";
-   static final String FROM_TIME = "from_time";
-   static final String TO_TIME = "to_time";
+   public static final String TABLE_EVENT = "table_event";
+   public static final String EVENT_ID = "event_id";
+  public static final String OWNER_ID = "owner_id";
+   public static final String NAME = "name";
+   public static final String PICTURE_MEDIUM = "picture_medium";
+   public static final String LOCATION = "location";
+   public static final String FROM_TIME = "from_time";
+   public static final String TO_TIME = "to_time";
 
-   static final String TABLE_NOTE = "table_note";
-   static final String NOTE_ID = "note_id";
-   static final String NOTE = "note";
+   public static final String TABLE_NOTE = "table_note";
+   public static final String NOTE_ID = "note_id";
+   public static final String NOTE_CONTENT = "note_content";
 
-   static final String TABLE_INVITATION = "table_invitation";
-   static final String INVITATION_ID = "invitation_id";
-   static final String USER_PHONE = "user_phone";
+   public static final String TABLE_INVITATION = "table_invitation";
+   public static final String INVITATION_ID = "invitation_id";
+   public static final String USER_PHONE = "user_phone";
 
-   static final String TABLE_USER = "table_user";
-   static final String DISPLAY_NAME = "display_name";
-   static final String PICTURE_SMALL = "picture_small";
+   public static final String TABLE_USER = "table_user";
+   public static final String DISPLAY_NAME = "display_name";
+   public static final String PICTURE_SMALL = "picture_small";
+   public static final String TIME_ZONE = "time_zone";
 
 
   static final String createStringTableEvent =
     "CREATE TABLE IF NOT EXISTS " + TABLE_EVENT + " (" +
       EVENT_ID + " INTEGER PRIMARY KEY, " +
+      OWNER_ID + " INTEGER, " +
       NAME + " TEXT, " +
       PICTURE_MEDIUM + " TEXT, " +
       PICTURE_SMALL + " TEXT, " +
@@ -42,7 +45,7 @@ public class SqlStrings {
     "CREATE TABLE IF NOT EXISTS " + TABLE_NOTE + " (" +
       NOTE_ID + " INTEGER PRIMARY KEY, " +
       EVENT_ID + " Integer, " +
-      NOTE + " TEXT" +
+      NOTE_CONTENT + " TEXT" +
       ");";
 
   static final String createStringTableInvitation =
@@ -56,7 +59,8 @@ public class SqlStrings {
     "CREATE TABLE IF NOT EXISTS " + TABLE_USER + " (" +
       USER_PHONE + " INTEGER PRIMARY KEY, " +
       DISPLAY_NAME + " TEXT, " +
-      PICTURE_SMALL + " TEXT" +
+      PICTURE_SMALL + " TEXT, " +
+      TIME_ZONE + " TEXT" +
       ");";
 
 }

@@ -14,6 +14,5 @@ public interface DatabaseContract {
   Event getEvent(long eventId);
 
   void saveUser(User user);
-
-
+  User getUser(int userId);
 }
