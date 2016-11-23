@@ -1,11 +1,5 @@
-package com.applications.severin.baron.syncup.Models;
+package com.applications.severin.baron.syncup.DataModels;
 
-import android.support.annotation.IntDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

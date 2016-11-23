@@ -1,6 +1,5 @@
-package com.applications.severin.baron.syncup.Models;
+package com.applications.severin.baron.syncup.DataModels;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

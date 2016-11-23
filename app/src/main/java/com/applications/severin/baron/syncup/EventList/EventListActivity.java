@@ -1,6 +1,5 @@
 package com.applications.severin.baron.syncup.EventList;
 
-import android.app.usage.UsageEvents;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,10 +17,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import com.applications.severin.baron.syncup.Models.Event;
 import com.applications.severin.baron.syncup.R;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;

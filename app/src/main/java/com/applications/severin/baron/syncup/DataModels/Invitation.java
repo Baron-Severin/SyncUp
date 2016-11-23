@@ -1,4 +1,4 @@
-package com.applications.severin.baron.syncup.Models;
+package com.applications.severin.baron.syncup.DataModels;
 
 import android.support.annotation.IntDef;
 
@@ -23,7 +23,7 @@ public class Invitation {
   public static final int ACCEPTED = 1;
   public static final int DECLINED = 2;
 
-  public Invitation(long eventId, int userId,@InvitationStatus int status) {
+  public Invitation(long eventId, int userId, @InvitationStatus int status) {
     this.eventId = eventId;
     this.userId = userId;
     this.status = status;

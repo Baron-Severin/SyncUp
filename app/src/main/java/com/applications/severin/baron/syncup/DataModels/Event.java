@@ -1,10 +1,9 @@
-package com.applications.severin.baron.syncup.Models;
+package com.applications.severin.baron.syncup.DataModels;
 
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by erikrudie on 11/20/16.
@@ -13,6 +12,7 @@ import java.util.UUID;
 public class Event {
 
   @Nullable private final long eventId;
+  private final int ownerId;
   @Nullable private final String name;
   @Nullable private final String location;
   @Nullable private final Bitmap pictureMedium;
@@ -22,11 +22,12 @@ public class Event {
   @Nullable private final List<Note> notes;
   @Nullable private final List<Invitation> invitations;
 
-  private Event(long eventId, String name, String location, Bitmap pictureMedium,
+  private Event(long eventId, int ownerId, String name, String location, Bitmap pictureMedium,
                 Bitmap pictureSmall, long fromTime, long toTime, List<Note> notes,
                 List<Invitation> invitations) {
     // Private constructor to prevent standard instantiation
     this.eventId = eventId;
+    this.ownerId = ownerId;
     this.name = name;
     this.location = location;
     this.pictureMedium = pictureMedium;
@@ -40,6 +41,10 @@ public class Event {
   @Nullable
   public long getEventId() {
     return eventId;
+  }
+
+  public int getOwnerId() {
+    return ownerId;
   }
 
   @Nullable
@@ -85,6 +90,7 @@ public class Event {
   public static class EventBuilder {
 
     private long eventId;
+    private int ownerId;
     private String name;
     private String location;
     private Bitmap pictureMedium;
@@ -95,9 +101,10 @@ public class Event {
     private List<Invitation> invitations;
 
     public Event build() {
-      Event event = new Event(eventId, name, location, pictureMedium, pictureSmall,
+      Event event = new Event(eventId, ownerId, name, location, pictureMedium, pictureSmall,
         fromTime, toTime, notes, invitations);
       this.eventId = 0;
+      this.ownerId = 0;
       this.name = null;
       this.location = null;
       this.pictureMedium = null;
@@ -107,11 +114,14 @@ public class Event {
       this.notes = null;
       this.invitations = null;
       return event;
-
     }
 
     public void setEventId(long eventId) {
       this.eventId = eventId;
+    }
+
+    public void setOwnerId(int ownerId) {
+      this.ownerId = ownerId;
     }
 
     public void setName(String name) {
@@ -147,5 +157,3 @@ public class Event {
     }
   }
 }
-
-// TODO: 11/22/16 set times in miliseconds, then convert to local time zone

@@ -1,6 +1,7 @@
 package com.applications.severin.baron.syncup.Database;
 
-import com.applications.severin.baron.syncup.Models.Event;
+import com.applications.severin.baron.syncup.DataModels.Event;
+import com.applications.severin.baron.syncup.DataModels.User;
 
 /**
  * Created by erikrudie on 11/20/16.
@@ -8,12 +9,11 @@ import com.applications.severin.baron.syncup.Models.Event;
 
 public interface DatabaseContract {
 
-  int SUCCESS = 2;
+  void saveEvent(Event event);
+  void deleteEvent(Event event);
+  Event getEvent(long eventId);
 
-  void addEvent(Event event);
-  void removeEvent(Event event);
-  void updateEvent(Event event);
+  void saveUser(User user);
 
-  // TODO: get events
 
 }

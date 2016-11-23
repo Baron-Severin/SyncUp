@@ -1,6 +1,6 @@
 package com.applications.severin.baron.syncup.EventList;
 
-import com.applications.severin.baron.syncup.Models.Event;
+import com.applications.severin.baron.syncup.DataModels.Event;
 
 import java.util.List;
 

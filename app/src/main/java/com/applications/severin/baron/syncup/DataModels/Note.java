@@ -1,4 +1,4 @@
-package com.applications.severin.baron.syncup.Models;
+package com.applications.severin.baron.syncup.DataModels;
 
 import java.util.UUID;
 
