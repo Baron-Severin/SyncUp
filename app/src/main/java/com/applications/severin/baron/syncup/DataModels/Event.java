@@ -100,6 +100,9 @@ public class Event {
     private List<Note> notes;
     private List<Invitation> invitations;
 
+    public EventBuilder() {
+    }
+
     public Event build() {
       Event event = new Event(eventId, ownerId, name, location, pictureMedium, pictureSmall,
         fromTime, toTime, notes, invitations);
@@ -116,44 +119,54 @@ public class Event {
       return event;
     }
 
-    public void setEventId(long eventId) {
+    public EventBuilder setEventId(long eventId) {
       this.eventId = eventId;
+      return this;
     }
 
-    public void setOwnerId(int ownerId) {
+    public EventBuilder setOwnerId(int ownerId) {
       this.ownerId = ownerId;
+      return this;
     }
 
-    public void setName(String name) {
+    public EventBuilder setName(String name) {
       this.name = name;
+      return this;
     }
 
-    public void setLocation(String location) {
+    public EventBuilder setLocation(String location) {
       this.location = location;
+      return this;
     }
 
-    public void setPictureMedium(Bitmap pictureMedium) {
+    public EventBuilder setPictureMedium(Bitmap pictureMedium) {
       this.pictureMedium = pictureMedium;
+      return this;
     }
 
-    public void setPictureSmall(Bitmap pictureSmall) {
+    public EventBuilder setPictureSmall(Bitmap pictureSmall) {
       this.pictureSmall = pictureSmall;
+      return this;
     }
 
-    public void setFromTime(long fromTime) {
+    public EventBuilder setFromTime(long fromTime) {
       this.fromTime = fromTime;
+      return this;
     }
 
-    public void setToTime(long toTime) {
+    public EventBuilder setToTime(long toTime) {
       this.toTime = toTime;
+      return this;
     }
 
-    public void setNotes(List<Note> notes) {
+    public EventBuilder setNotes(List<Note> notes) {
       this.notes = notes;
+      return this;
     }
 
-    public void setInvitations(List<Invitation> invitations) {
+    public EventBuilder setInvitations(List<Invitation> invitations) {
       this.invitations = invitations;
+      return this;
     }
   }
 }

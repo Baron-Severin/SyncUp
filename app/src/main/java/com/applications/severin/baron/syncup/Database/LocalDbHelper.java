@@ -4,11 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.applications.severin.baron.syncup.DataModels.Event;
+import com.applications.severin.baron.syncup.DataModels.User;
+
 /**
  * Created by erikrudie on 11/20/16.
  */
 
-public class LocalDbHelper extends SQLiteOpenHelper {
+public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract {
 
   private static final String DATABASE_NAME = "SYNCUP_LOCAL";
   private static final int DATABASE_VERSION = 1;
@@ -53,4 +56,28 @@ public class LocalDbHelper extends SQLiteOpenHelper {
   }
 
 
+  @Override
+  public void saveEvent(Event event) {
+
+  }
+
+  @Override
+  public void deleteEvent(Event event) {
+
+  }
+
+  @Override
+  public Event getEvent(long eventId) {
+    return null;
+  }
+
+  @Override
+  public void saveUser(User user) {
+
+  }
+
+  @Override
+  public User getUser(int userId) {
+    return null;
+  }
 }

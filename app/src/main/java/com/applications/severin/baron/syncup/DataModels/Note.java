@@ -14,7 +14,7 @@ public class Note {
   private String content;
 
   public Note(long eventId, int userPhone, String content) {
-    this.noteId = UUID.randomUUID().timestamp();
+    this.noteId = (long) (System.currentTimeMillis() * Math.random());
     this.eventId = eventId;
     this.userPhone = userPhone;
     this.content = content;
