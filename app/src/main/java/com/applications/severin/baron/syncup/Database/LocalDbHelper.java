@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.applications.severin.baron.syncup.DataModels.Event;
 import com.applications.severin.baron.syncup.DataModels.Invitation;
@@ -76,6 +77,9 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
       saveInvitationDetails(db, invitation);
     }
 
+    //// TODO: 11/24/2016
+    Log.d("SEVTEST: ", "testEvent id: " + event.getEventId());
+
     db.close();
     return true;
   }
@@ -140,8 +144,8 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
   public Event getEvent(long eventId) {
     SQLiteDatabase db = this.getReadableDatabase();
 
-    List<Note> notes = getNotesByEventId(db, eventId);
     List<Invitation> invitations = getInvitationsByEventId(db, eventId);
+    List<Note> notes = getNotesByEventId(db, eventId);
     Event event = getEventByEventId(db, eventId, notes, invitations);
     db.close();
     return event;
@@ -149,6 +153,8 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
 
   private Event getEventByEventId(SQLiteDatabase db, long eventId,
                                   List<Note> notes, List<Invitation> invitations) {
+// TODO: 11/24/2016
+    Log.d("SEVTEST: ", "testEvent id: " + eventId);
     String sql = "SELECT *" +
             " FROM " + PH.TABLE_EVENT +
             " WHERE " + PH.EVENT_ID + " = '" + eventId + "';";
@@ -163,6 +169,7 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
             cursor.getString(cursor.getColumnIndexOrThrow(PH.PICTURE_SMALL)));
     long fromTime = cursor.getLong(cursor.getColumnIndexOrThrow(PH.FROM_TIME));
     long toTime = cursor.getLong(cursor.getColumnIndexOrThrow(PH.TO_TIME));
+    cursor.close();
 
     Event event = new Event.EventBuilder().setEventId(eventId).setOwnerId(ownerId).setName(name)
             .setLocation(location).setPictureMedium(pictureMedium).setPictureSmall(pictureSmall)

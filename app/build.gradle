@@ -62,6 +62,9 @@ dependencies {
     // Firebase
     compile 'com.google.firebase:firebase-core:9.8.0'
 
+    // Stetho
+    compile 'com.facebook.stetho:stetho:1.1.1'
+
 }
 
 // Firebase
