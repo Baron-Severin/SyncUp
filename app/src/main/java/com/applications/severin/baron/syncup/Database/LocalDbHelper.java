@@ -164,6 +164,11 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
     return notes;
   }
 
+  private List<Invitation> getInvitationsAttachedToEvent(SQLiteDatabase db, long eventId) {
+    List<Invitation> invitations = new ArrayList<>();
+    String sql = "SELECT"
+  }
+
 //  private long noteId;
 //  private long eventId;
 //  private int userPhone;
