@@ -24,11 +24,22 @@ public class Invitation {
   public static final int ACCEPTED = 1;
   public static final int DECLINED = 2;
 
-  public Invitation(long invitationId, long eventId, int userId, @InvitationStatus int status) {
+  public Invitation(long eventId, int userId, @InvitationStatus int status) {
+    this.invitationId = (long) (System.currentTimeMillis() * Math.random());
+    this.eventId = eventId;
+    this.userId = userId;
+    this.status = status;
+  }
+
+  private Invitation(long invitationId, long eventId, int userId, @InvitationStatus int status) {
     this.invitationId = invitationId;
     this.eventId = eventId;
     this.userId = userId;
     this.status = status;
+  }
+
+  public static Invitation inflateInvitationFromDb(long invitationId, long eventId, int userId, @InvitationStatus int status) {
+    return new Invitation(invitationId, eventId, userId, status);
   }
 
   public long getInvitationId() {

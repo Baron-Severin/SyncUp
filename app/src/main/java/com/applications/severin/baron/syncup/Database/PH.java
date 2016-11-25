@@ -5,7 +5,7 @@ package com.applications.severin.baron.syncup.Database;
  */
 
 public class PH {
-  // TODO: 11/22/16 rename this PH
+  // TODO: 11/22/16 rename this
 
    public static final String TABLE_EVENT = "table_event";
    public static final String EVENT_ID = "event_id";

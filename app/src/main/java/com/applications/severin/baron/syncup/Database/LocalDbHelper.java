@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 
 import com.applications.severin.baron.syncup.DataModels.Event;
 import com.applications.severin.baron.syncup.DataModels.Invitation;
@@ -131,25 +132,49 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
   }
 
   @Override
-  public void deleteEvent(Event event) {
-
+  public boolean deleteEvent(Event event) {
+    return false;
   }
 
   @Override
   public Event getEvent(long eventId) {
     SQLiteDatabase db = this.getReadableDatabase();
 
-    List<Note> notes = getNotesAttachedToEvent(db, eventId);
-    List<Invitation> invitations = getInvitationsAttachedToEvent(db, eventId);
-// TODO: 11/22/16 This is where I left off 
-
+    List<Note> notes = getNotesByEventId(db, eventId);
+    List<Invitation> invitations = getInvitationsByEventId(db, eventId);
+    Event event = getEventByEventId(db, eventId, notes, invitations);
+    db.close();
+    return event;
   }
 
-  private List<Note> getNotesAttachedToEvent(SQLiteDatabase db, long eventId) {
-    List<Note> notes = new ArrayList<>();
-    String sql = "SELECT * FROM " + PH.TABLE_NOTE +
-      " WHERE " + PH.EVENT_ID + " = '" + eventId + "';";
+  private Event getEventByEventId(SQLiteDatabase db, long eventId,
+                                  List<Note> notes, List<Invitation> invitations) {
+    String sql = "SELECT *" +
+            " FROM " + PH.TABLE_EVENT +
+            " WHERE " + PH.EVENT_ID + " = '" + eventId + "';";
+    Cursor cursor = db.rawQuery(sql, null);
+    cursor.moveToFirst();
+    int ownerId = cursor.getInt(cursor.getColumnIndexOrThrow(PH.OWNER_ID));
+    String name = cursor.getString(cursor.getColumnIndexOrThrow(PH.NAME));
+    String location = cursor.getString(cursor.getColumnIndexOrThrow(PH.LOCATION));
+    Bitmap pictureMedium = PictureTextConverter.stringToBitmap(
+            cursor.getString(cursor.getColumnIndexOrThrow(PH.PICTURE_MEDIUM)));
+    Bitmap pictureSmall = PictureTextConverter.stringToBitmap(
+            cursor.getString(cursor.getColumnIndexOrThrow(PH.PICTURE_SMALL)));
+    long fromTime = cursor.getLong(cursor.getColumnIndexOrThrow(PH.FROM_TIME));
+    long toTime = cursor.getLong(cursor.getColumnIndexOrThrow(PH.TO_TIME));
 
+    Event event = new Event.EventBuilder().setEventId(eventId).setOwnerId(ownerId).setName(name)
+            .setLocation(location).setPictureMedium(pictureMedium).setPictureSmall(pictureSmall)
+            .setFromTime(fromTime).setToTime(toTime).build();
+    return event;
+  }
+
+  private List<Note> getNotesByEventId(SQLiteDatabase db, long eventId) {
+    List<Note> notes = new ArrayList<>();
+    String sql = "SELECT *" +
+            " FROM " + PH.TABLE_NOTE +
+            " WHERE " + PH.EVENT_ID + " = '" + eventId + "';";
     Cursor cursor = db.rawQuery(sql, null);
     cursor.moveToFirst();
     while (!cursor.isAfterLast()) {
@@ -164,19 +189,28 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
     return notes;
   }
 
-  private List<Invitation> getInvitationsAttachedToEvent(SQLiteDatabase db, long eventId) {
+  private List<Invitation> getInvitationsByEventId(SQLiteDatabase db, long eventId) {
     List<Invitation> invitations = new ArrayList<>();
-    String sql = "SELECT"
+    String sql = "SELECT *" +
+            " FROM " + PH.TABLE_INVITATION +
+            " WHERE " + PH.EVENT_ID + " = '" + eventId + "';";
+    Cursor cursor = db.rawQuery(sql, null);
+    cursor.moveToFirst();
+    while (!cursor.isAfterLast()) {
+      long invitationId = cursor.getInt(cursor.getColumnIndexOrThrow(PH.INVITATION_ID));
+      int userId = cursor.getInt(cursor.getColumnIndexOrThrow(PH.USER_PHONE));
+      @Invitation.InvitationStatus int status = cursor.getInt(cursor.getColumnIndexOrThrow(PH.INVITATION_STATUS));
+      Invitation invitation = Invitation.inflateInvitationFromDb(invitationId, eventId, userId, status);
+      invitations.add(invitation);
+      cursor.moveToNext();
+    }
+    cursor.close();
+    return invitations;
   }
 
-//  private long noteId;
-//  private long eventId;
-//  private int userPhone;
-//  private String content;
-
   @Override
-  public void saveUser(User user) {
-
+  public boolean saveUser(User user) {
+    return false;
   }
 
   @Override

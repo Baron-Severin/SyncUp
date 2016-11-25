@@ -80,7 +80,7 @@ public class LocalDbHelperUnitTest {
     notes = new ArrayList<>();
     notes.add(new Note(1, 2, "my note"));
     invitations = new ArrayList<>();
-    invitations.add(new Invitation(1, 2, Invitation.INVITED));
+    invitations.add(Invitation.inflateInvitationFromDb(1, 2, 3, Invitation.INVITED));
 
     testEvent = new Event.EventBuilder().setEventId(eventId).setOwnerId(ownerId)
       .setName(name).setLocation(location).setPictureMedium(pictureMedium)

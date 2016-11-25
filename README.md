@@ -68,6 +68,7 @@ ACTIONS
   * TableInvitation  
     * InvitationId : Integer (primary key)  
     * EventId : Integer  
+    * InvitationStatus : Integer
     * UserPhone : Integer  
   * TableUser  
     * UserPhone : Integer (primary key)  
@@ -97,6 +98,3 @@ UI shows information pulled from the local db.  Local db is updated when the app
   * Pull down anything listed as having been updated  
 * Populate Event List:  
   * List is populated from SQL  
-
-
-
