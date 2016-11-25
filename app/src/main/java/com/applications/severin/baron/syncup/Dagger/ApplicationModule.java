@@ -3,6 +3,8 @@ package com.applications.severin.baron.syncup.Dagger;
 import android.app.Application;
 import android.content.Context;
 
+import com.applications.severin.baron.syncup.Database.LocalDbHelper;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -16,6 +18,7 @@ import dagger.Provides;
 public class ApplicationModule {
 
   private Application application;
+  private LocalDbHelper localHelper;
 
   public ApplicationModule(Application application) {
     this.application = application;
@@ -26,5 +29,9 @@ public class ApplicationModule {
   public Context provideContext() {
     return application;
   }
+
+  @Provides
+  @Singleton
+  public LocalDbHelper providesLocalDbHelper() {return localHelper;}
 
 }

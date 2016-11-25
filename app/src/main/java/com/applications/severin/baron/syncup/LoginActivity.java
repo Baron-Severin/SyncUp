@@ -1,6 +1,8 @@
 package com.applications.severin.baron.syncup;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.applications.severin.baron.syncup.Dagger.App;
+import com.applications.severin.baron.syncup.Dagger.DaggerApplicationComponent;
+import com.applications.severin.baron.syncup.DataModels.Event;
+import com.applications.severin.baron.syncup.DataModels.Invitation;
+import com.applications.severin.baron.syncup.DataModels.Note;
 import com.applications.severin.baron.syncup.Database.LocalDbHelper;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -16,6 +22,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class LoginActivity extends AppCompatActivity
   implements GoogleApiClient.OnConnectionFailedListener,
@@ -34,6 +45,30 @@ public class LoginActivity extends AppCompatActivity
     setUpGoogleSignIn();
 
     ((App) getApplication()).getApplicationComponent().inject(this);
+
+    // TODO: 11/24/2016 BEGIN TEMP CODE
+    LocalDbHelper helper = new LocalDbHelper(this);
+    // Set up sample Event
+    long eventId = 1;
+    int ownerId = 2;
+    String name = "Fred";
+    String location = "Seattle";
+    Bitmap pictureMedium = BitmapFactory.decodeResource(getResources(), R.drawable.cookie_small);
+    Bitmap pictureSmall = BitmapFactory.decodeResource(getResources(), R.drawable.cookie_small);
+    long fromTime = 3;
+    long toTime = 4;
+    List<Note> notes = new ArrayList<>();
+    notes.add(new Note(eventId, ownerId, "my note"));
+    List<Invitation> invitations = new ArrayList<>();
+    invitations.add(Invitation.inflateInvitationFromDb(1, eventId, ownerId, Invitation.INVITED));
+
+    Event testEvent = new Event.EventBuilder().setEventId(eventId).setOwnerId(ownerId)
+            .setName(name).setLocation(location).setPictureMedium(pictureMedium)
+            .setPictureSmall(pictureSmall).setFromTime(fromTime).setToTime(toTime).setNotes(notes)
+            .setInvitations(invitations).build();
+    helper.saveEvent(testEvent);
+    // TODO: 11/24/2016 END TEST CODE
+
 
   }
 

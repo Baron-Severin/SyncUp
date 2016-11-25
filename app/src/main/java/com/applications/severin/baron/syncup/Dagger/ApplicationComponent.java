@@ -1,5 +1,6 @@
 package com.applications.severin.baron.syncup.Dagger;
 
+import com.applications.severin.baron.syncup.Database.LocalDbHelper;
 import com.applications.severin.baron.syncup.EventList.EventListActivity;
 import com.applications.severin.baron.syncup.LoginActivity;
 
@@ -17,6 +18,8 @@ public interface ApplicationComponent {
 
   void inject(LoginActivity target);
   void inject(EventListActivity target);
+
+  LocalDbHelper provideLocalDbHelper();
 
 
 }

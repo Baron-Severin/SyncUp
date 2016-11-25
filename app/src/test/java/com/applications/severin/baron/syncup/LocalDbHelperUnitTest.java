@@ -79,7 +79,7 @@ public class LocalDbHelperUnitTest {
     fromTime = 3;
     toTime = 4;
     notes = new ArrayList<>();
-    notes.add(new Note(1, 2, "my note"));
+    notes.add(new Note(eventId, ownerId, "my note"));
     invitations = new ArrayList<>();
     invitations.add(Invitation.inflateInvitationFromDb(1, 2, 3, Invitation.INVITED));
 

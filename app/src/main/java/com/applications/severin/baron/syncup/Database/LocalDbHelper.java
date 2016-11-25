@@ -84,6 +84,7 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
     return true;
   }
 
+  // TODO: 11/24/2016 picture string conversion isnt working.  that's why the db stuff fails, this method never even completes
   private void saveEventDetails(SQLiteDatabase db, Event event) {
     String sql = "INSERT OR REPLACE INTO " + PH.TABLE_EVENT + " (" +
       PH.EVENT_ID + ", " +
