@@ -44,7 +44,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.8.0'
 
     // Constraint Layout
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
 
     // RecyclerView
     compile 'com.android.support:support-v4:25.0.1'
