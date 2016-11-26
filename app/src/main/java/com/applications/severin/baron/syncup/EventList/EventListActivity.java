@@ -26,7 +26,7 @@ public class EventListActivity extends AppCompatActivity {
 
 
   private SectionsPagerAdapter mSectionsPagerAdapter;
-  @BindView(R.id.container) private ViewPager mViewPager;
+  @BindView(R.id.container) ViewPager mViewPager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class EventListActivity extends AppCompatActivity {
   }
 
   @OnClick(R.id.fab)
-  private void handleFabClick(View view) {
+  public void handleFabClick(View view) {
     // TODO: this will create a new event
   }
 

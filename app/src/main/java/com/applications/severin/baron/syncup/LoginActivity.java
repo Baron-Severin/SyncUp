@@ -7,13 +7,12 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.applications.severin.baron.syncup.Dagger.App;
-import com.applications.severin.baron.syncup.Dagger.DaggerApplicationComponent;
 import com.applications.severin.baron.syncup.DataModels.Event;
 import com.applications.severin.baron.syncup.DataModels.Invitation;
 import com.applications.severin.baron.syncup.DataModels.Note;
@@ -29,7 +28,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity
   implements GoogleApiClient.OnConnectionFailedListener,
@@ -40,17 +40,26 @@ public class LoginActivity extends AppCompatActivity
   private static final String TAG = "LoginActivity";
   private static final int RC_SIGN_IN = 9001;
 
+  @BindView(R.id.imageview_med)
+  ImageView imageViewMed;
+  @BindView(R.id.imageview_small)
+  ImageView imageViewSmall;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
+
+    ButterKnife.setDebug(true);
+    ButterKnife.bind(this);
 
     setUpGoogleSignIn();
 
     ((App) getApplication()).getApplicationComponent().inject(this);
 
     // TODO: 11/24/2016 BEGIN TEMP CODE
-    LocalDbHelper helper = new LocalDbHelper(this, true);
+
+    LocalDbHelper helper = new LocalDbHelper(this);
     SQLiteDatabase db = helper.getWritableDatabase();
     helper.dropAllTables(db);
     helper.onCreate(db);
@@ -63,7 +72,14 @@ public class LoginActivity extends AppCompatActivity
     Bitmap pictureMedium = BitmapFactory.decodeResource(getResources(), R.drawable.cookie_small);
     pictureMedium = BitmapScaler.scaleToSizeMedium(pictureMedium);
     Bitmap pictureSmall = BitmapFactory.decodeResource(getResources(), R.drawable.cookie_small);
-    pictureSmall = BitmapScaler.scaleToSizeMedium(pictureSmall);
+    pictureSmall = BitmapScaler.scaleToSizeSmall(pictureSmall);
+
+    int medSize = pictureMedium.getByteCount();
+    int smallSize = pictureSmall.getByteCount();
+
+    imageViewMed.setImageBitmap(pictureMedium);
+    imageViewSmall.setImageBitmap(pictureSmall);
+
     long fromTime = 3;
     long toTime = 4;
     List<Note> notes = new ArrayList<>();
@@ -75,10 +91,10 @@ public class LoginActivity extends AppCompatActivity
             .setName(name).setLocation(location).setPictureMedium(pictureMedium)
             .setPictureSmall(pictureSmall).setFromTime(fromTime).setToTime(toTime).setNotes(notes)
             .setInvitations(invitations).build();
-    helper.saveEvent(testEvent);
-    Event retrievedEvent = helper.getEvent(testEvent.getEventId());
-    // TODO: 11/24/2016 END TEST CODE
+//    helper.saveEvent(testEvent);
+//    Event retrievedEvent = helper.getEvent(testEvent.getEventId());
     System.out.println("");
+    // TODO: 11/24/2016 END TEST CODE
 
 
   }
