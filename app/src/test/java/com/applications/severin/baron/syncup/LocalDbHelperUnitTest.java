@@ -66,6 +66,7 @@ public class LocalDbHelperUnitTest {
   @Before
   public void setup() {
     mContext = RuntimeEnvironment.application;
+//    mHelper = new LocalDbHelper(mContext);
     mHelper = new LocalDbHelper(mContext, true);
     mDb = mHelper.getWritableDatabase();
 

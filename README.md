@@ -64,6 +64,7 @@ ACTIONS
   * TableNote  
     * NoteId : Integer (primary key)  
     * EventId : Integer  
+    * UserPhone : Integer  
     * Note : String  
   * TableInvitation  
     * InvitationId : Integer (primary key)  

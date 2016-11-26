@@ -52,14 +52,14 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
     return true;
   }
 
-  private boolean dropAllTables(SQLiteDatabase db) {
-    String sql = "DROP TABLE " + PH.TABLE_EVENT;
+  public boolean dropAllTables(SQLiteDatabase db) {
+    String sql = "DROP TABLE IF EXISTS " + PH.TABLE_EVENT;
     db.execSQL(sql);
-    sql = "DROP TABLE " + PH.TABLE_INVITATION;
+    sql = "DROP TABLE IF EXISTS " + PH.TABLE_INVITATION;
     db.execSQL(sql);
-    sql = "DROP TABLE " + PH.TABLE_NOTE;
+    sql = "DROP TABLE IF EXISTS " + PH.TABLE_NOTE;
     db.execSQL(sql);
-    sql = "DROP TABLE " + PH.TABLE_USER;
+    sql = "DROP TABLE IF EXISTS " + PH.TABLE_USER;
     db.execSQL(sql);
     return true;
   }
@@ -86,6 +86,8 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
 
   // TODO: 11/24/2016 picture string conversion isnt working.  that's why the db stuff fails, this method never even completes
   private void saveEventDetails(SQLiteDatabase db, Event event) {
+    String picStringMed = PictureTextConverter.bitmapToString(event.getPictureMedium());
+    String picStringSmall = PictureTextConverter.bitmapToString(event.getPictureSmall());
     String sql = "INSERT OR REPLACE INTO " + PH.TABLE_EVENT + " (" +
       PH.EVENT_ID + ", " +
       PH.OWNER_ID + ", " +
@@ -99,23 +101,26 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
       event.getEventId() + "', '" +
       event.getOwnerId() + "', '" +
       event.getName() + "', '" +
-      PictureTextConverter.bitmapToString(event.getPictureMedium()) + "', '" +
-      PictureTextConverter.bitmapToString(event.getPictureSmall()) + "', '" +
+      picStringMed + "', '" +
+      picStringSmall + "', '" +
       event.getLocation() + "', '" +
       event.getFromTime() + "', '" +
       event.getToTime() + "');";
 
     db.execSQL(sql);
+    System.out.println("");
   }
 
   private void saveNoteDetails(SQLiteDatabase db, Note note) {
     String sql = "INSERT OR REPLACE INTO " + PH.TABLE_NOTE + " (" +
       PH.NOTE_ID + ", " +
       PH.EVENT_ID + ", " +
+      PH.USER_PHONE + ", " +
       PH.NOTE_CONTENT +
       ") VALUES ('" +
       note.getNoteId() + "', '" +
       note.getEventId() + "', '" +
+      note.getUserPhone() + "', '" +
       note.getContent() + "');";
 
     db.execSQL(sql);

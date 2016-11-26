@@ -46,7 +46,8 @@ public class PH {
   static final String createStringTableNote =
     "CREATE TABLE IF NOT EXISTS " + TABLE_NOTE + " (" +
       NOTE_ID + " INTEGER PRIMARY KEY, " +
-      EVENT_ID + " Integer, " +
+      EVENT_ID + " INTEGER, " +
+      USER_PHONE + " INTEGER, " +
       NOTE_CONTENT + " TEXT" +
       ");";
 

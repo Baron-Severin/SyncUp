@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 public abstract class PictureTextConverter {
 
   public static String bitmapToString(Bitmap bitmap) {
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
     byte[] b = baos.toByteArray();
