@@ -77,10 +77,6 @@ public class LoginActivity extends AppCompatActivity
     pictureMedium = BitmapScaler.scaleToSizeMedium(pictureMedium);
     Bitmap pictureSmall = BitmapFactory.decodeResource(getResources(), R.drawable.cookie_small);
     pictureSmall = BitmapScaler.scaleToSizeSmall(pictureSmall);
-
-    int medSize = pictureMedium.getByteCount();
-    int smallSize = pictureSmall.getByteCount();
-
     long fromTime = 3;
     long toTime = 4;
     List<Note> notes = new ArrayList<>();

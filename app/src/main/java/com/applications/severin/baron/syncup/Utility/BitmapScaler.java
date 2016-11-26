@@ -8,13 +8,16 @@ import android.graphics.Bitmap;
 
 public class BitmapScaler {
 
+  public static final int SMALL_PIC = 80;
+  public static final int MEDIUM_PIC = 300;
+
   public static Bitmap scaleToSizeSmall(Bitmap bitmap) {
-    bitmap = scaleToFill(bitmap, 80, 80);
+    bitmap = scaleToFill(bitmap, SMALL_PIC, SMALL_PIC);
     return bitmap;
   }
 
   public static Bitmap scaleToSizeMedium(Bitmap bitmap) {
-    bitmap = scaleToFill(bitmap, 300, 300);
+    bitmap = scaleToFill(bitmap, MEDIUM_PIC, MEDIUM_PIC);
     return bitmap;
   }
 

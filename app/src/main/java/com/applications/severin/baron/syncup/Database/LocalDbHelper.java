@@ -104,7 +104,6 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
     return true;
   }
 
-  // TODO: 11/24/2016 this save fails on the in memory db.  seems to work fine with the normal db
   private void saveEventDetails(SQLiteDatabase db, Event event) {
     String picStringMed, picStringSmall;
     if (event.getPictureMedium() != null && event.getPictureSmall() != null) {

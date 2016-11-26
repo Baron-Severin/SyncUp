@@ -28,13 +28,5 @@ public abstract class PictureTextConverter {
     return decodedByte;
   }
 
-//  Resources r = this.getResources();
-//  Bitmap bm = BitmapFactory.decodeResource(r, R.drawable.logo);
-//  ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//  bm.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
-//  byte[] b = baos.toByteArray();
-////String encodedImage = Base64.encode(b, Base64.DEFAULT);
-//  encodedImage = Base64.encodeBytes(b);
-
 
 }

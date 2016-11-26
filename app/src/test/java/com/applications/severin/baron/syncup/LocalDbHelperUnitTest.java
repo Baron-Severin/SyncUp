@@ -11,8 +11,10 @@ import android.util.Pair;
 import com.applications.severin.baron.syncup.DataModels.Event;
 import com.applications.severin.baron.syncup.DataModels.Invitation;
 import com.applications.severin.baron.syncup.DataModels.Note;
+import com.applications.severin.baron.syncup.DataModels.User;
 import com.applications.severin.baron.syncup.Database.LocalDbHelper;
 import com.applications.severin.baron.syncup.Database.PH;
+import com.applications.severin.baron.syncup.Utility.BitmapScaler;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -39,8 +41,6 @@ import static org.junit.Assert.assertTrue;
  */
 
 @RunWith(RobolectricGradleTestRunner.class)
-// To use Robolectric you'll need to setup some constants.
-// Change it according to your needs.
 @Config(constants = BuildConfig.class, sdk = 21, manifest = "/src/main/AndroidManifest.xml")
 public class LocalDbHelperUnitTest {
 
@@ -48,58 +48,51 @@ public class LocalDbHelperUnitTest {
   private LocalDbHelper mHelper;
   private SQLiteDatabase mDb;
 
-  private Event testEvent;
-
-  private long eventId;
-  private int ownerId;
-  private String name;
-  private String location;
-  private Bitmap pictureMedium;
-  private Bitmap pictureSmall;
-  private long fromTime;
-  private long toTime;
-  private List<Note> notes;
-  private List<Invitation> invitations;
-
   @Rule
   public ExpectedException exceptionRule = ExpectedException.none();
 
   @Before
   public void setup() {
     mContext = RuntimeEnvironment.application;
-//    mHelper = new LocalDbHelper(mContext);
     mHelper = LocalDbHelper.getInstance(mContext, true);
     mDb = mHelper.getWritableDatabase();
+  }
 
-    // Set up sample Event
-    eventId = 1;
-    ownerId = 2;
-    name = "Fred";
-    location = "Seattle";
-    pictureMedium = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.cookie_small);
-    pictureSmall = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.cookie_small);
-    fromTime = 3;
-    toTime = 4;
-    notes = new ArrayList<>();
+  private Event getTestEvent() {
+    long eventId = 1;
+    int ownerId = 2;
+    String name = "Fred";
+    String location = "Seattle";
+    long fromTime = 3;
+    long toTime = 4;
+    List<Note> notes = new ArrayList<>();
     notes.add(new Note(eventId, ownerId, "my note"));
-    invitations = new ArrayList<>();
+    List<Invitation> invitations = new ArrayList<>();
     invitations.add(Invitation.inflateInvitationFromDb(1, eventId, ownerId, Invitation.INVITED));
 
-    testEvent = new Event.EventBuilder().setEventId(eventId).setOwnerId(ownerId)
-      .setName(name).setLocation(location)
-      .setPictureMedium(pictureMedium).setPictureSmall(pictureSmall)
-      .setFromTime(fromTime).setToTime(toTime).setNotes(notes)
-      .setInvitations(invitations).build();
+    return new Event.EventBuilder().setEventId(eventId).setOwnerId(ownerId)
+            .setName(name).setLocation(location)
+            .setFromTime(fromTime).setToTime(toTime).setNotes(notes)
+            .setInvitations(invitations).build();
+  }
+
+  private User getTestUser() {
+    int userId = 1;
+    Bitmap pictureSmall = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.cookie_small);
+    pictureSmall = BitmapScaler.scaleToSizeSmall(pictureSmall);
+    String displayName = "Hugh";
+    String timezone = "Pacific";
+
+    return new User(userId, pictureSmall, displayName, timezone);
   }
 
   @After
   public void cleanup() {
-//    mDb.close();
+    mDb.close();
   }
 
   @Test
   public void db_shouldBeCreated() {
-    // Verify is the DB is opening correctly
     assertTrue("DB didn't open", mDb.isOpen());
   }
 
@@ -178,23 +171,30 @@ public class LocalDbHelperUnitTest {
   }
 
   @Test
-  public void eventTable_newEventsMayBeAdded() {
-    mHelper.saveEvent(testEvent);
-//    mDb = mHelper.getWritableDatabase();
+  public void eventTable_savedAndRetrievedEventsAreIdentical() {
+    Event saved = getTestEvent();
+    mHelper.saveEvent(saved);
+    Event retrieved = mHelper.getEvent(saved.getEventId());
 
+    assertEquals(saved.getEventId(), retrieved.getEventId());
+    assertEquals(saved.getInvitations().get(0).getUserId(), retrieved.getInvitations().get(0).getUserId());
+    assertEquals(saved.getFromTime(), retrieved.getFromTime());
+    assertEquals(saved.getToTime(), retrieved.getToTime());
+    assertEquals(saved.getLocation(), retrieved.getLocation());
+    assertEquals(saved.getName(), retrieved.getName());
+    assertEquals(saved.getNotes().get(0).getContent(), retrieved.getNotes().get(0).getContent());
+    assertEquals(saved.getOwnerId(), retrieved.getOwnerId());
+  }
 
-    Event retrievedEvent = mHelper.getEvent(testEvent.getEventId());
+  @Test
+  public void userTable_savedAndRetrievedUsersAreIdentical() {
+    User saved = getTestUser();
+    mHelper.saveUser(saved);
+    User retrieved = mHelper.getUser(saved.getUserId());
 
-    assertEquals(testEvent.getEventId(), retrievedEvent.getEventId());
-    assertEquals(testEvent.getInvitations().get(0).getUserId(), retrievedEvent.getInvitations().get(0).getUserId());
-    assertEquals(testEvent.getFromTime(), retrievedEvent.getFromTime());
-    assertEquals(testEvent.getToTime(), retrievedEvent.getToTime());
-    assertEquals(testEvent.getLocation(), retrievedEvent.getLocation());
-    assertEquals(testEvent.getName(), retrievedEvent.getName());
-    assertEquals(testEvent.getNotes().get(0).getContent(), retrievedEvent.getNotes().get(0).getContent());
-    assertEquals(testEvent.getOwnerId(), retrievedEvent.getOwnerId());
-    assertEquals(testEvent.getPictureMedium().getByteCount(), retrievedEvent.getPictureMedium().getByteCount());
-    assertEquals(testEvent.getPictureSmall().getByteCount(), retrievedEvent.getPictureSmall().getByteCount());
+    assertEquals(saved.getUserId(), retrieved.getUserId());
+    assertEquals(saved.getDisplayName(), retrieved.getDisplayName());
+    assertEquals(saved.getTimezone(), retrieved.getTimezone());
   }
 
 }
