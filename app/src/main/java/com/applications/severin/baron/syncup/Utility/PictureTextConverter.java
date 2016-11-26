@@ -17,7 +17,7 @@ public abstract class PictureTextConverter {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
     byte[] b = baos.toByteArray();
-    String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+    String encodedImage = Base64.encodeToString(b, Base64.URL_SAFE);
     return encodedImage;
   }
 

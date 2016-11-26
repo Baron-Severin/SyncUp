@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.database.SQLException;
 
 import com.applications.severin.baron.syncup.DataModels.Event;
 import com.applications.severin.baron.syncup.DataModels.Invitation;
@@ -25,11 +26,31 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
   private static final String DATABASE_NAME = "SYNCUP_LOCAL";
   private static final int DATABASE_VERSION = 1;
 
-  public LocalDbHelper(Context context) {
+  private static LocalDbHelper DB;
+
+  private static boolean dbTest;
+
+  public static LocalDbHelper getInstance(Context context) {
+    if (DB == null) {
+      DB = new LocalDbHelper(context);
+    }
+    dbTest = false;
+    return DB;
+  }
+
+  public static LocalDbHelper getInstance(Context context, boolean testMode) {
+    if (DB == null) {
+      DB = new LocalDbHelper(context, testMode);
+    }
+    dbTest = true;
+    return DB;
+  }
+
+  private LocalDbHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
   }
 
-  public LocalDbHelper(Context context, boolean testMode) {
+  private LocalDbHelper(Context context, boolean testMode) {
     super(context, null, null, DATABASE_VERSION);
   }
 
@@ -70,24 +91,29 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
     SQLiteDatabase db = this.getWritableDatabase();
 
     saveEventDetails(db, event);
-    for (Note note : event.getNotes()) {
-      saveNoteDetails(db, note);
-    }
     for (Invitation invitation : event.getInvitations()) {
       saveInvitationDetails(db, invitation);
     }
+    for (Note note : event.getNotes()) {
+      saveNoteDetails(db, note);
+    }
 
-    //// TODO: 11/24/2016
-    Log.d("SEVTEST: ", "testEvent id: " + event.getEventId());
-
-    db.close();
+    if (!dbTest) {
+      db.close();
+    }
     return true;
   }
 
-  // TODO: 11/24/2016 picture string conversion isnt working.  that's why the db stuff fails, this method never even completes
+  // TODO: 11/24/2016 this save fails on the in memory db.  seems to work fine with the normal db
   private void saveEventDetails(SQLiteDatabase db, Event event) {
-    String picStringMed = PictureTextConverter.bitmapToString(event.getPictureMedium());
-    String picStringSmall = PictureTextConverter.bitmapToString(event.getPictureSmall());
+    String picStringMed, picStringSmall;
+    if (event.getPictureMedium() != null && event.getPictureSmall() != null) {
+      picStringMed = PictureTextConverter.bitmapToString(event.getPictureMedium());
+      picStringSmall = PictureTextConverter.bitmapToString(event.getPictureSmall());
+    } else {
+      picStringMed = "";
+      picStringSmall = "";
+    }
     String sql = "INSERT OR REPLACE INTO " + PH.TABLE_EVENT + " (" +
       PH.EVENT_ID + ", " +
       PH.OWNER_ID + ", " +
@@ -107,7 +133,12 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
       event.getFromTime() + "', '" +
       event.getToTime() + "');";
 
-    db.execSQL(sql);
+    try {
+      db.execSQL(sql);
+    } catch (SQLException e) {
+      System.out.println("SEVTEST");
+      e.printStackTrace();
+    }
     System.out.println("");
   }
 
@@ -159,8 +190,6 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
 
   private Event getEventByEventId(SQLiteDatabase db, long eventId,
                                   List<Note> notes, List<Invitation> invitations) {
-// TODO: 11/24/2016
-    Log.d("SEVTEST: ", "testEvent id: " + eventId);
     String sql = "SELECT *" +
             " FROM " + PH.TABLE_EVENT +
             " WHERE " + PH.EVENT_ID + " = '" + eventId + "';";
@@ -179,7 +208,8 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
 
     Event event = new Event.EventBuilder().setEventId(eventId).setOwnerId(ownerId).setName(name)
             .setLocation(location).setPictureMedium(pictureMedium).setPictureSmall(pictureSmall)
-            .setFromTime(fromTime).setToTime(toTime).build();
+            .setFromTime(fromTime).setToTime(toTime).setNotes(notes).setInvitations(invitations)
+            .build();
     return event;
   }
 

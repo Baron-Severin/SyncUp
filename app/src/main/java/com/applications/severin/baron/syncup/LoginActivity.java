@@ -40,10 +40,14 @@ public class LoginActivity extends AppCompatActivity
   private static final String TAG = "LoginActivity";
   private static final int RC_SIGN_IN = 9001;
 
+  //todo begin test code
   @BindView(R.id.imageview_med)
   ImageView imageViewMed;
   @BindView(R.id.imageview_small)
   ImageView imageViewSmall;
+  @BindView(R.id.textView)
+  TextView textView;
+  //todo end test code
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,7 @@ public class LoginActivity extends AppCompatActivity
 
     // TODO: 11/24/2016 BEGIN TEMP CODE
 
-    LocalDbHelper helper = new LocalDbHelper(this);
+    LocalDbHelper helper = LocalDbHelper.getInstance(this);
     SQLiteDatabase db = helper.getWritableDatabase();
     helper.dropAllTables(db);
     helper.onCreate(db);
@@ -77,9 +81,6 @@ public class LoginActivity extends AppCompatActivity
     int medSize = pictureMedium.getByteCount();
     int smallSize = pictureSmall.getByteCount();
 
-    imageViewMed.setImageBitmap(pictureMedium);
-    imageViewSmall.setImageBitmap(pictureSmall);
-
     long fromTime = 3;
     long toTime = 4;
     List<Note> notes = new ArrayList<>();
@@ -91,8 +92,13 @@ public class LoginActivity extends AppCompatActivity
             .setName(name).setLocation(location).setPictureMedium(pictureMedium)
             .setPictureSmall(pictureSmall).setFromTime(fromTime).setToTime(toTime).setNotes(notes)
             .setInvitations(invitations).build();
-//    helper.saveEvent(testEvent);
-//    Event retrievedEvent = helper.getEvent(testEvent.getEventId());
+    helper.saveEvent(testEvent);
+    Event retrievedEvent = helper.getEvent(testEvent.getEventId());
+
+    imageViewMed.setImageBitmap(retrievedEvent.getPictureMedium());
+    imageViewSmall.setImageBitmap(retrievedEvent.getPictureSmall());
+
+    textView.setText(retrievedEvent.getNotes().get(0).getContent() + retrievedEvent.getInvitations().get(0).getStatus());
     System.out.println("");
     // TODO: 11/24/2016 END TEST CODE
 

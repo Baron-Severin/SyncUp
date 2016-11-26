@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.util.Pair;
 
 import com.applications.severin.baron.syncup.DataModels.Event;
 import com.applications.severin.baron.syncup.DataModels.Invitation;
@@ -67,7 +68,7 @@ public class LocalDbHelperUnitTest {
   public void setup() {
     mContext = RuntimeEnvironment.application;
 //    mHelper = new LocalDbHelper(mContext);
-    mHelper = new LocalDbHelper(mContext, true);
+    mHelper = LocalDbHelper.getInstance(mContext, true);
     mDb = mHelper.getWritableDatabase();
 
     // Set up sample Event
@@ -82,17 +83,18 @@ public class LocalDbHelperUnitTest {
     notes = new ArrayList<>();
     notes.add(new Note(eventId, ownerId, "my note"));
     invitations = new ArrayList<>();
-    invitations.add(Invitation.inflateInvitationFromDb(1, 2, 3, Invitation.INVITED));
+    invitations.add(Invitation.inflateInvitationFromDb(1, eventId, ownerId, Invitation.INVITED));
 
     testEvent = new Event.EventBuilder().setEventId(eventId).setOwnerId(ownerId)
-      .setName(name).setLocation(location).setPictureMedium(pictureMedium)
-      .setPictureSmall(pictureSmall).setFromTime(fromTime).setToTime(toTime).setNotes(notes)
+      .setName(name).setLocation(location)
+      .setPictureMedium(pictureMedium).setPictureSmall(pictureSmall)
+      .setFromTime(fromTime).setToTime(toTime).setNotes(notes)
       .setInvitations(invitations).build();
   }
 
   @After
   public void cleanup() {
-    mDb.close();
+//    mDb.close();
   }
 
   @Test
@@ -178,18 +180,21 @@ public class LocalDbHelperUnitTest {
   @Test
   public void eventTable_newEventsMayBeAdded() {
     mHelper.saveEvent(testEvent);
+//    mDb = mHelper.getWritableDatabase();
+
+
     Event retrievedEvent = mHelper.getEvent(testEvent.getEventId());
 
     assertEquals(testEvent.getEventId(), retrievedEvent.getEventId());
-    assertEquals(testEvent.getInvitations(), retrievedEvent.getInvitations());
+    assertEquals(testEvent.getInvitations().get(0).getUserId(), retrievedEvent.getInvitations().get(0).getUserId());
     assertEquals(testEvent.getFromTime(), retrievedEvent.getFromTime());
     assertEquals(testEvent.getToTime(), retrievedEvent.getToTime());
     assertEquals(testEvent.getLocation(), retrievedEvent.getLocation());
     assertEquals(testEvent.getName(), retrievedEvent.getName());
-    assertEquals(testEvent.getNotes(), retrievedEvent.getNotes());
+    assertEquals(testEvent.getNotes().get(0).getContent(), retrievedEvent.getNotes().get(0).getContent());
     assertEquals(testEvent.getOwnerId(), retrievedEvent.getOwnerId());
-    assertEquals(testEvent.getPictureMedium(), retrievedEvent.getPictureMedium());
-    assertEquals(testEvent.getPictureSmall(), retrievedEvent.getPictureSmall());
+    assertEquals(testEvent.getPictureMedium().getByteCount(), retrievedEvent.getPictureMedium().getByteCount());
+    assertEquals(testEvent.getPictureSmall().getByteCount(), retrievedEvent.getPictureSmall().getByteCount());
   }
 
 }

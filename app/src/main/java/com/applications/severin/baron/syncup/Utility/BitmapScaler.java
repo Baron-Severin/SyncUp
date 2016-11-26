@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 public class BitmapScaler {
 
   public static Bitmap scaleToSizeSmall(Bitmap bitmap) {
-    bitmap = scaleToFill(bitmap, 125, 125);
+    bitmap = scaleToFill(bitmap, 80, 80);
     return bitmap;
   }
 
