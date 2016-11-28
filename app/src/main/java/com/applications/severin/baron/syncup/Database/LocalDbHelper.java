@@ -104,7 +104,7 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
     return true;
   }
 
-  private void saveEventDetails(SQLiteDatabase db, Event event) {
+  private boolean saveEventDetails(SQLiteDatabase db, Event event) {
     String picStringMed, picStringSmall;
     if (event.getPictureMedium() != null && event.getPictureSmall() != null) {
       picStringMed = PictureTextConverter.bitmapToString(event.getPictureMedium());
@@ -132,16 +132,11 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
       event.getFromTime() + "', '" +
       event.getToTime() + "');";
 
-    try {
       db.execSQL(sql);
-    } catch (SQLException e) {
-      System.out.println("SEVTEST");
-      e.printStackTrace();
-    }
-    System.out.println("");
+    return true;
   }
 
-  private void saveNoteDetails(SQLiteDatabase db, Note note) {
+  private boolean saveNoteDetails(SQLiteDatabase db, Note note) {
     String sql = "INSERT OR REPLACE INTO " + PH.TABLE_NOTE + " (" +
       PH.NOTE_ID + ", " +
       PH.EVENT_ID + ", " +
@@ -154,9 +149,10 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
       note.getContent() + "');";
 
     db.execSQL(sql);
+    return true;
   }
 
-  private void saveInvitationDetails(SQLiteDatabase db, Invitation invitation) {
+  private boolean saveInvitationDetails(SQLiteDatabase db, Invitation invitation) {
     String sql = "INSERT OR REPLACE INTO " + PH.TABLE_INVITATION + " (" +
       PH.INVITATION_ID + ", " +
       PH.EVENT_ID + ", " +
@@ -169,6 +165,7 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
       invitation.getUserId() + "');";
 
     db.execSQL(sql);
+    return true;
   }
 
   @Override
@@ -252,11 +249,42 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
 
   @Override
   public boolean saveUser(User user) {
-    return false;
+    SQLiteDatabase db = this.getWritableDatabase();
+    String picString = PictureTextConverter.bitmapToString(user.getPictureSmall());
+
+    String sql = "INSERT OR REPLACE INTO " + PH.TABLE_USER + " (" +
+      PH.USER_PHONE + ", " +
+      PH.DISPLAY_NAME + ", " +
+      PH.PICTURE_SMALL + ", " +
+      PH.TIME_ZONE +
+      ") VALUES ('" +
+      user.getUserId() + "', '" +
+      user.getDisplayName() + "', '" +
+      picString + "', '" +
+      user.getTimezone() + "');";
+
+    db.execSQL(sql);
+    if (!dbTest) {
+      db.close();
+    }
+    return true;
   }
+
 
   @Override
   public User getUser(int userId) {
-    return null;
+    SQLiteDatabase db = this.getReadableDatabase();
+    String sql = "SELECT * FROM " + PH.TABLE_USER +
+      " WHERE " + PH.USER_PHONE + " = '" +
+      userId + "';";
+    Cursor cursor = db.rawQuery(sql, null);
+    cursor.moveToFirst();
+    String displayName = cursor.getString(cursor.getColumnIndexOrThrow(PH.DISPLAY_NAME));
+    String picString = cursor.getString(cursor.getColumnIndexOrThrow(PH.PICTURE_SMALL));
+    String timezone = cursor.getString(cursor.getColumnIndexOrThrow(PH.TIME_ZONE));
+    Bitmap picSmall = PictureTextConverter.stringToBitmap(picString);
+
+    cursor.close();
+    return new User(userId, picSmall, displayName, timezone);
   }
 }
