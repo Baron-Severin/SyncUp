@@ -178,6 +178,10 @@ public class LocalDbHelperUnitTest {
     mHelper.saveEvent(saved);
     Event retrieved = mHelper.getEvent(saved.getEventId());
 
+    areEventsEqual(saved, retrieved);
+  }
+
+  private void areEventsEqual(Event saved, Event retrieved) {
     assertEquals(saved.getEventId(), retrieved.getEventId());
     assertEquals(saved.getInvitations().get(0).getUserId(), retrieved.getInvitations().get(0).getUserId());
     assertEquals(saved.getFromTime(), retrieved.getFromTime());
@@ -194,6 +198,10 @@ public class LocalDbHelperUnitTest {
     mHelper.saveUser(saved);
     User retrieved = mHelper.getUser(saved.getUserId());
 
+    areUsersEqual(saved, retrieved);
+  }
+
+  private void areUsersEqual(User saved, User retrieved) {
     assertEquals(saved.getUserId(), retrieved.getUserId());
     assertEquals(saved.getDisplayName(), retrieved.getDisplayName());
     assertEquals(saved.getTimezone(), retrieved.getTimezone());
@@ -203,10 +211,26 @@ public class LocalDbHelperUnitTest {
   public void deletedEvent_shouldNotExistInDb() {
     Event saved = getTestEvent();
     mHelper.saveEvent(saved);
+    Event retrieved = mHelper.getEvent(saved.getEventId());
+
+    areEventsEqual(saved, retrieved);
+
     mHelper.deleteEvent(saved);
     exceptionRule.expect(CursorIndexOutOfBoundsException.class);
 
-    Event retrieved = mHelper.getEvent(saved.getEventId());
+    retrieved = mHelper.getEvent(saved.getEventId());
+  }
+
+  @Test
+  public void deletedUser_shouldNotExistInDb() {
+    User saved = getTestUser();
+    mHelper.saveUser(saved);
+    User retrieved = mHelper.getUser(saved.getUserId());
+    areUsersEqual(saved, retrieved);
+
+    mHelper.deleteUser(saved);
+    exceptionRule.expect(CursorIndexOutOfBoundsException.class);
+    retrieved = mHelper.getUser(saved.getUserId());
   }
   
 }
