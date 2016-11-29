@@ -2,6 +2,7 @@ package com.applications.severin.baron.syncup;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,6 +35,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -197,6 +199,15 @@ public class LocalDbHelperUnitTest {
     assertEquals(saved.getTimezone(), retrieved.getTimezone());
   }
 
+  @Test
+  public void deletedEvent_shouldNotExistInDb() {
+    Event saved = getTestEvent();
+    mHelper.saveEvent(saved);
+    mHelper.deleteEvent(saved);
+    exceptionRule.expect(CursorIndexOutOfBoundsException.class);
+
+    Event retrieved = mHelper.getEvent(saved.getEventId());
+  }
   
 }
 

@@ -85,6 +85,12 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
     return true;
   }
 
+  private boolean closeDbIfNotTesting(SQLiteDatabase db) {
+    if (!dbTest) {
+      db.close();
+    }
+    return true;
+  }
 
   @Override
   public boolean saveEvent(Event event) {
@@ -98,9 +104,7 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
       saveNoteDetails(db, note);
     }
 
-    if (!dbTest) {
-      db.close();
-    }
+    closeDbIfNotTesting(db);
     return true;
   }
 
@@ -170,7 +174,41 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
 
   @Override
   public boolean deleteEvent(Event event) {
-    return false;
+    return deleteEvent(event.getEventId());
+  }
+
+  @Override
+  public boolean deleteEvent(long eventId) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    deleteEventByEventId(db, eventId);
+    deleteNoteByEventId(db, eventId);
+    deleteInvitationByEventId(db, eventId);
+    db.close();
+    return true;
+  }
+
+  private boolean deleteEventByEventId(SQLiteDatabase db, long eventId) {
+    String sql = "DELETE FROM " + PH.TABLE_EVENT +
+      " WHERE " + PH.EVENT_ID + " = '" +
+      eventId + "';";
+    db.execSQL(sql);
+    return true;
+  }
+
+  private boolean deleteNoteByEventId(SQLiteDatabase db, long eventId) {
+    String sql = "DELETE FROM " + PH.TABLE_NOTE +
+      " WHERE " + PH.EVENT_ID + " = '" +
+      eventId + "';";
+    db.execSQL(sql);
+    return true;
+  }
+
+  private boolean deleteInvitationByEventId(SQLiteDatabase db, long eventId) {
+    String sql = "DELETE FROM " + PH.TABLE_INVITATION +
+      " WHERE " + PH.EVENT_ID + " = '" +
+      eventId + "';";
+    db.execSQL(sql);
+    return true;
   }
 
   @Override
@@ -264,10 +302,18 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
       user.getTimezone() + "');";
 
     db.execSQL(sql);
-    if (!dbTest) {
-      db.close();
-    }
+    closeDbIfNotTesting(db);
     return true;
+  }
+
+  @Override
+  public boolean deleteUser(User user) {
+    return deleteUser(user.getUserId());
+  }
+
+  @Override
+  public boolean deleteUser(int userId) {
+    return false;
   }
 
 
@@ -285,6 +331,7 @@ public class LocalDbHelper extends SQLiteOpenHelper implements DatabaseContract 
     Bitmap picSmall = PictureTextConverter.stringToBitmap(picString);
 
     cursor.close();
+    db.close();
     return new User(userId, picSmall, displayName, timezone);
   }
 }
