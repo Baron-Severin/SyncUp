@@ -7,15 +7,21 @@ import java.util.Set;
  * Created by erikrudie on 11/22/16.
  */
 
-public class UserUpdate {
+public class UserUpdate extends UpdateSuperType {
 
-  private final Map<Integer, Set<Integer>> userToUpdatedContent;
+  private final int userId;
+  private final Set<Integer> updated;
 
-  public UserUpdate(Map<Integer, Set<Integer>> userToUpdatedContent) {
-    this.userToUpdatedContent = userToUpdatedContent;
+  public UserUpdate(int userId, Set<Integer> updated) {
+    this.userId = userId;
+    this.updated = updated;
   }
 
-  public Map<Integer, Set<Integer>> getUserToUpdatedContent() {
-    return userToUpdatedContent;
+  public int getUserId() {
+    return userId;
+  }
+
+  public Set<Integer> getUpdated() {
+    return updated;
   }
 }

@@ -9,13 +9,24 @@ import java.util.Set;
 
 public class EventUpdate {
 
-  private final Map<Long, Set<Integer>> eventToUpdatedContent;
+  private long eventId;
+  private Set<Integer> updated;
 
-  public EventUpdate(Map<Long, Set<Integer>> eventToUpdatedContent) {
-    this.eventToUpdatedContent = eventToUpdatedContent;
+  public EventUpdate(long eventId, Set<Integer> updated) {
+    this.eventId = eventId;
+    this.updated = updated;
   }
 
-  public Map<Long, Set<Integer>> getEventToUpdatedContent() {
-    return eventToUpdatedContent;
+  public long getEventId() {
+    return eventId;
+  }
+
+  public Set<Integer> getUpdated() {
+    return updated;
   }
 }
+
+// How am I going to deal with multiple users pulling down updates at 1:00,
+// then making updates at 1:05? Force them to pull down constantly before
+// making any changes? Recording the last pull, then splitting any duplicates
+// into multiple notes?

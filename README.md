@@ -19,20 +19,18 @@ ACTIONS
 
 
 * Firebase DB  
-  * PhoneNumbers  
+  * Users  
     * [Phone Number]  
       * Private  
         * EventList  
+        * Updates  
+          * (unimportant updates [what is unimportant is determined by NotificationSetting] are pushed here. This field is checked when the app is opened, and new information is retrieved)  
+          * Picture:bool  
+          * Text:bool  
       * Public  
         * DisplayName  
         * PictureSmall  
         * NotificationSetting  
-      * Updates  
-        * (unimportant updates [what is unimportant is determined by NotificationSetting] are pushed here. This field is checked when the app is opened, and new information is retrieved)  
-        * NameLocDateTime:bool  
-        * Picture:bool  
-        * NoteList:bool  
-        * Invitations:bool  
   * Events  
     * [EventId]  
       * Name  
